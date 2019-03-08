@@ -10,7 +10,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,9 +19,8 @@ public class BillBuilderTest {
     @InjectMocks
     private BillBuilder billModelBuilder;
 
-    Date date = new Date();
-    String DATE_FORMAT = "dd-MM-yyyy";
-    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    private String DATE_FORMAT = "dd-MM-yyyy";
+    private SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
     @Test
     public void shouldReturnValidResponseBillWhenSendRequestBillValid() throws ParseException {

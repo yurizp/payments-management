@@ -23,9 +23,6 @@ public class ResponseBillDTO {
     @JsonProperty("valorCorrigido")
     private Double priceWithTax;
 
-    public ResponseBillDTO() {
-    }
-
     public String getName() {
         return name;
     }

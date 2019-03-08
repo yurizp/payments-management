@@ -6,20 +6,18 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CalculateBillServiceTest {
 
-    CalculateBillService calculateBillService;
-    Date date = new Date();
-    String DATE_FORMAT = "dd-MM-yyyy";
-    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    private CalculateBillService calculateBillService;
+    private String DATE_FORMAT = "dd-MM-yyyy";
+    private SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
 
     @Before
-    public void before(){
+    public void before() {
         calculateBillService = new CalculateBillService();
     }
 
@@ -80,6 +78,7 @@ public class CalculateBillServiceTest {
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
+
     @Test
     public void shouldDoNothingWhenSendANotLatedBill() throws ParseException {
 

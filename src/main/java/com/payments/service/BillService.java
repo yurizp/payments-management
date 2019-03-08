@@ -29,8 +29,8 @@ public class BillService {
     }
 
     public ResponseBillDTO create(ResponseBillDTO billDTO) {
-        billDTO = calculateBillService.calculateWithTax(billDTO);
-        BillModel billModel = builderModel.createInstance(billDTO);
+        ResponseBillDTO responseBill = calculateBillService.calculateWithTax(billDTO);
+        BillModel billModel = builderModel.createInstance(responseBill);
         billModel = billRepository.save(billModel);
         return builderResponse.createInstance(billModel);
 

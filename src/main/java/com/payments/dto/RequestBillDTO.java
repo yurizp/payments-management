@@ -3,7 +3,6 @@ package com.payments.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -27,9 +26,6 @@ public class RequestBillDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @NotNull(message = "O campo dataPagamento não pode ser nulo nem vazio.")
     private Date payday;
-
-    public RequestBillDTO() {
-    }
 
     public String getName() {
         return name;

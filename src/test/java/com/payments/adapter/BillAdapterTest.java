@@ -1,6 +1,5 @@
 package com.payments.adapter;
 
-import com.payments.adapter.BillAdapter;
 import com.payments.builder.BillBuilder;
 import com.payments.dto.RequestBillDTO;
 import com.payments.dto.ResponseBillDTO;
@@ -28,7 +27,7 @@ public class BillAdapterTest {
     private BillService billService;
 
     @Test
-    public void shouldCallTheServiceAndBuilder(){
+    public void shouldCallTheServiceAndBuilder() {
         RequestBillDTO requestBillDTO = new RequestBillDTO();
         ResponseBillDTO responseBillDTO = new ResponseBillDTO();
 

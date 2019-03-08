@@ -29,7 +29,7 @@ public class BillApi {
     }
 
     @GetMapping
-    public ResponseEntity<List<ResponseBillDTO>> getListBill(){
+    public ResponseEntity<List<ResponseBillDTO>> getListBill() {
         List<ResponseBillDTO> allBills = billAdapter.getAllBills();
         return ResponseEntity.ok(allBills);
     }
