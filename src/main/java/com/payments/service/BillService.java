@@ -8,9 +8,9 @@ import com.payments.repository.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class BillService {
@@ -37,8 +37,8 @@ public class BillService {
     }
 
     public List<ResponseBillDTO> getBills() {
-        List<BillModel> billModels = new ArrayList<>();
-        billRepository.findAll().forEach(billModels::add);
-        return billModels.stream().map(builderResponse::createInstance).collect(Collectors.toList());
+        return StreamSupport.stream(billRepository.findAll().spliterator(), Boolean.FALSE)
+                .map(builderResponse::createInstance)
+                .collect(Collectors.toList());
     }
 }
