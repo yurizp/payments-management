@@ -3,7 +3,7 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:mysql://localhost:3306/payments
+    url: jdbc:mysql://localhost:3306/payments?useTimezone=true&serverTimezone=UTC
     username: root
     password: root
     driverClassName: com.mysql.cj.jdbc.Driver
