@@ -29,7 +29,7 @@ public class BillAdapterTest {
     @Test
     public void shouldCallTheServiceAndBuilder() {
         RequestBillDTO requestBillDTO = new RequestBillDTO();
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder().build();
 
         doReturn(responseBillDTO).when(billBuilder).createInstance(requestBillDTO);
         doReturn(responseBillDTO).when(billService).create(responseBillDTO);

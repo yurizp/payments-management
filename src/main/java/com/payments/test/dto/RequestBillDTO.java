@@ -1,12 +1,16 @@
 package com.payments.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 
+@Getter
+@Builder
 public class RequestBillDTO {
 
     @JsonProperty("nome")
@@ -18,44 +22,23 @@ public class RequestBillDTO {
     private Double price;
 
     @JsonProperty("dataVencimento")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "O campo dataVencimento não pode ser nulo nem vazio.")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @JsonProperty("dataPagamento")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @NotNull(message = "O campo dataPagamento não pode ser nulo nem vazio.")
-    private Date payday;
+    private LocalDate payday;
 
-    public String getName() {
-        return name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Date getPayday() {
-        return payday;
-    }
-
-    public void setName(String name) {
+    private RequestBillDTO(@NotBlank(message = "O campo nome não pode ser nulo nem vazio.") String name, @NotNull(message = "O campo preco não pode ser nulo nem vazio.") Double price, @NotNull(message = "O campo dataVencimento não pode ser nulo nem vazio.") LocalDate dueDate, @NotNull(message = "O" +
+            " campo dataPagamento não pode ser nulo nem vazio.") LocalDate payday) {
         this.name = name;
-    }
-
-    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public void setPayday(Date payday) {
+        this.dueDate = dueDate;
         this.payday = payday;
     }
 
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public RequestBillDTO() {
     }
 }

@@ -9,7 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,24 +21,26 @@ public class BillBuilderTest {
     private BillBuilder billModelBuilder;
 
     private String DATE_FORMAT = "dd-MM-yyyy";
-    private SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     @Test
     public void shouldReturnValidResponseBillWhenSendRequestBillValid() throws ParseException {
 
-        RequestBillDTO requestBillDTO = new RequestBillDTO();
-        requestBillDTO.setPrice(200D);
-        requestBillDTO.setPayday(sdf.parse("12-11-2000"));
-        requestBillDTO.setDueDate(sdf.parse("22-11-2000"));
-        requestBillDTO.setName("name");
+        RequestBillDTO requestBillDTO = RequestBillDTO.builder()
+                .price(200D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dueDate(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .name("name")
+                .build();
 
         ResponseBillDTO actual = billModelBuilder.createInstance(requestBillDTO);
 
-        ResponseBillDTO expected = new ResponseBillDTO();
-        expected.setPrice(200D);
-        expected.setPayday(sdf.parse("12-11-2000"));
-        expected.setDateDue(sdf.parse("22-11-2000"));
-        expected.setName("name");
+        ResponseBillDTO expected = ResponseBillDTO.builder()
+                .price(200D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .name("name")
+                .build();
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
 
@@ -48,19 +51,20 @@ public class BillBuilderTest {
 
         BillModel billModel = new BillModel();
         billModel.setPrice(200D);
-        billModel.setPayday(sdf.parse("12-11-2000"));
-        billModel.setDueDate(sdf.parse("22-11-2000"));
+        billModel.setPayday(LocalDate.parse("12-11-2000", dateTimeFormatter));
+        billModel.setDueDate(LocalDate.parse("22-11-2000", dateTimeFormatter));
         billModel.setName("name");
         billModel.setPriceWithTax(100D);
 
         ResponseBillDTO actual = billModelBuilder.createInstance(billModel);
 
-        ResponseBillDTO expected = new ResponseBillDTO();
-        expected.setPrice(200D);
-        expected.setPayday(sdf.parse("12-11-2000"));
-        expected.setDateDue(sdf.parse("22-11-2000"));
-        expected.setName("name");
-        expected.setPriceWithTax(100D);
+        ResponseBillDTO expected = ResponseBillDTO.builder()
+                .price(200D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .name("name")
+                .priceWithTax(100D)
+                .build();
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
 

@@ -3,15 +3,20 @@ package com.payments.service;
 import com.payments.dto.ResponseBillDTO;
 import org.springframework.stereotype.Service;
 
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class CalculateBillService {
 
-
     public ResponseBillDTO calculateWithTax(ResponseBillDTO billDTO) {
-        billDTO.setPriceWithTax(getPriceWithTax(billDTO));
-        return billDTO;
+        return ResponseBillDTO.builder()
+                .dateDue(billDTO.getDateDue())
+                .name(billDTO.getName())
+                .priceWithTax(getPriceWithTax(billDTO))
+                .price(billDTO.getPrice())
+                .payday(billDTO.getPayday())
+                .build();
     }
 
     private Double getPriceWithTax(ResponseBillDTO billDTO) {
@@ -41,7 +46,7 @@ public class CalculateBillService {
     }
 
     private long getDays(ResponseBillDTO billDTO) {
-        long diff = billDTO.getDateDue().getTime() - billDTO.getPayday().getTime();
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+        long days = ChronoUnit.DAYS.between(billDTO.getDateDue(), billDTO.getPayday());
+        return Math.abs(days);
     }
 }

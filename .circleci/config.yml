@@ -38,5 +38,21 @@ jobs:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
+
+      - run: eval "echo $"${SONAR_PROJECT_KEY}""
+      - run: eval "echo $"${SONAR_ORGANIZATION}""
+      - run: eval "echo $"${SONAR_HOST}""
+      - run: eval "echo $"${SONAR_LOGIN}""
+      - run: eval "echo $"${GITHUB_TOKEN}""
+      - run: eval "echo $"${CIRCLE_BRANCH}""
+      - run: eval "echo $"${CIRCLE_PR_NUMBER}""
+      - run:
+          name: Set PR number
+          command: |
+            echo 'export CIRCLE_PR_NUMBER="${CIRCLE_PR_NUMBER:-${CIRCLE_PULL_REQUEST##*/}}"' >> $BASH_ENV
+            source $BASH_ENV
+            echo $CIRCLE_PR_NUMBER
+
       # run tests!
       - run: gradle test
+      - run: gradle jacocoTestReport sonarqube  -Dsonar.projectKey=${SONAR_PROJECT_KEY}  -Dsonar.organization=${SONAR_ORGANIZATION}  -Dsonar.host.url=${SONAR_HOST}  -Dsonar.login=${SONAR_LOGIN}  -Dsonar.pullrequest.vsts.token.secured=${GITHUB_TOKEN}  -Dsonar.pullrequest.base=master -Dsonar.pullrequest.branch=${CIRCLE_BRANCH}  -Dsonar.pullrequest.key=${CIRCLE_PR_NUMBER} -Dsonar.pullrequest.provider=GitHub -Dsonar.pullrequest.github.repository=yurizp/payments-management
