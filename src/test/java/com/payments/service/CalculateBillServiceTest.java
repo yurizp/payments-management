@@ -4,8 +4,8 @@ import com.payments.dto.ResponseBillDTO;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,7 @@ public class CalculateBillServiceTest {
 
     private CalculateBillService calculateBillService;
     private String DATE_FORMAT = "dd-MM-yyyy";
-    private SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
 
     @Before
@@ -22,78 +22,86 @@ public class CalculateBillServiceTest {
     }
 
     @Test
-    public void shouldCollectTaxWhenSendMorThenFiveDaysLatestBill() throws ParseException {
+    public void shouldCollectTaxWhenSendMorThenFiveDaysLatestBill() {
 
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setPrice(100D);
-        responseBillDTO.setPayday(sdf.parse("12-11-2000"));
-        responseBillDTO.setDateDue(sdf.parse("22-11-2000"));
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .build();
 
         ResponseBillDTO actual = calculateBillService.calculateWithTax(responseBillDTO);
 
-        ResponseBillDTO expected = new ResponseBillDTO();
-        expected.setPrice(100D);
-        expected.setPayday(sdf.parse("12-11-2000"));
-        expected.setDateDue(sdf.parse("22-11-2000"));
-        expected.setPriceWithTax(180.00);
+        ResponseBillDTO expected = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .priceWithTax(180.00)
+                .build();
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
     @Test
-    public void shouldCollectTaxWhenSendThreeDaysLatestBill() throws ParseException {
+    public void shouldCollectTaxWhenSendThreeDaysLatestBill(){
 
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setPrice(100D);
-        responseBillDTO.setPayday(sdf.parse("12-11-2000"));
-        responseBillDTO.setDateDue(sdf.parse("15-11-2000"));
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("15-11-2000", dateTimeFormatter))
+                .build();
 
         ResponseBillDTO actual = calculateBillService.calculateWithTax(responseBillDTO);
 
-        ResponseBillDTO expected = new ResponseBillDTO();
-        expected.setPrice(100D);
-        expected.setPayday(sdf.parse("12-11-2000"));
-        expected.setDateDue(sdf.parse("15-11-2000"));
-        expected.setPriceWithTax(123.00);
+        ResponseBillDTO expected = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("15-11-2000", dateTimeFormatter))
+                .priceWithTax(123.00)
+                .build();
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
 
     @Test
-    public void shouldCollectTaxWhenSendFourDaysLatestBill() throws ParseException {
+    public void shouldCollectTaxWhenSendFourDaysLatestBill() {
 
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setPrice(100D);
-        responseBillDTO.setPayday(sdf.parse("12-11-2000"));
-        responseBillDTO.setDateDue(sdf.parse("16-11-2000"));
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("16-11-2000", dateTimeFormatter))
+                .build();
 
         ResponseBillDTO actual = calculateBillService.calculateWithTax(responseBillDTO);
 
-        ResponseBillDTO expected = new ResponseBillDTO();
-        expected.setPrice(100D);
-        expected.setPayday(sdf.parse("12-11-2000"));
-        expected.setDateDue(sdf.parse("16-11-2000"));
-        expected.setPriceWithTax(138.00);
+        ResponseBillDTO expected = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("16-11-2000", dateTimeFormatter))
+                .priceWithTax(138.00)
+                .build();
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }
 
     @Test
-    public void shouldDoNothingWhenSendANotLatedBill() throws ParseException {
+    public void shouldDoNothingWhenSendANotLatedBill() {
 
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setPrice(100D);
-        responseBillDTO.setPayday(sdf.parse("22-11-2000"));
-        responseBillDTO.setDateDue(sdf.parse("22-11-2000"));
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .build();
 
         ResponseBillDTO actual = calculateBillService.calculateWithTax(responseBillDTO);
 
-        ResponseBillDTO expected = new ResponseBillDTO();
-        expected.setPrice(100D);
-        expected.setPayday(sdf.parse("22-11-2000"));
-        expected.setDateDue(sdf.parse("22-11-2000"));
-        expected.setPriceWithTax(100D);
+        ResponseBillDTO expected = ResponseBillDTO.builder()
+                .price(100D)
+                .payday(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .priceWithTax(100D)
+                .build();
 
         assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected);
     }

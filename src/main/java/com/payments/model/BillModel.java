@@ -1,12 +1,16 @@
 package com.payments.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "bill")
+@Getter
+@Setter
 public class BillModel {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,60 +22,11 @@ public class BillModel {
     private Double price;
 
     @Column(name = "dueDate")
-    private Date dueDate;
+    private LocalDate dueDate;
 
     @Column(name = "payday")
-    private Date payday;
+    private LocalDate payday;
 
     @Column(name = "priceWithTax")
     private Double priceWithTax;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Date getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(Date dateDue) {
-        this.dueDate = dateDue;
-    }
-
-    public Date getPayday() {
-        return payday;
-    }
-
-    public void setPayday(Date payday) {
-        this.payday = payday;
-    }
-
-    public Double getPriceWithTax() {
-        return priceWithTax;
-    }
-
-    public void setPriceWithTax(Double priceWithTax) {
-        this.priceWithTax = priceWithTax;
-    }
 }

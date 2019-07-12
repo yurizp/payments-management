@@ -9,22 +9,22 @@ import org.springframework.stereotype.Component;
 public class BillBuilder {
 
     public ResponseBillDTO createInstance(RequestBillDTO requestBillDTO) {
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setName(requestBillDTO.getName());
-        responseBillDTO.setDateDue(requestBillDTO.getDueDate());
-        responseBillDTO.setPayday(requestBillDTO.getPayday());
-        responseBillDTO.setPrice(requestBillDTO.getPrice());
-        return responseBillDTO;
+        return ResponseBillDTO.builder()
+                .name(requestBillDTO.getName())
+                .dateDue(requestBillDTO.getDueDate())
+                .payday(requestBillDTO.getPayday())
+                .price(requestBillDTO.getPrice())
+                .build();
     }
 
     public ResponseBillDTO createInstance(BillModel billModel) {
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setName(billModel.getName());
-        responseBillDTO.setDateDue(billModel.getDueDate());
-        responseBillDTO.setPayday(billModel.getPayday());
-        responseBillDTO.setPrice(billModel.getPrice());
-        responseBillDTO.setPriceWithTax(billModel.getPriceWithTax());
-        return responseBillDTO;
+        return ResponseBillDTO.builder()
+                .name(billModel.getName())
+                .dateDue(billModel.getDueDate())
+                .payday(billModel.getPayday())
+                .priceWithTax(billModel.getPriceWithTax())
+                .price(billModel.getPrice())
+                .build();
     }
 
 }

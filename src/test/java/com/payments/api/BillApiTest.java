@@ -36,13 +36,14 @@ public class BillApiTest {
     @Test
     public void shouldReturnSucess() throws Exception {
 
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder().build();
         doReturn(responseBillDTO).when(billAdapter).crateBill(any());
 
         mockMvc.perform(post(URL)
                 .content(new String(Files.readAllBytes(Paths.get("json/bill.json"))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
+                .andDo(result -> System.out.println(result.getResponse()))
                 .andExpect(status().isOk());
 
     }

@@ -8,7 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,24 +20,25 @@ public class BillModelBuilderTest {
     private BillModelBuilder billModelBuilder;
 
     private String DATE_FORMAT = "dd-MM-yyyy";
-    private SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_FORMAT);
 
     @Test
     public void shouldReturnValidBillModel() throws ParseException {
 
-        ResponseBillDTO responseBillDTO = new ResponseBillDTO();
-        responseBillDTO.setPrice(200D);
-        responseBillDTO.setPayday(sdf.parse("12-11-2000"));
-        responseBillDTO.setDateDue(sdf.parse("22-11-2000"));
-        responseBillDTO.setName("name");
-        responseBillDTO.setPriceWithTax(100D);
+        ResponseBillDTO responseBillDTO = ResponseBillDTO.builder()
+                .price(200D)
+                .payday(LocalDate.parse("12-11-2000", dateTimeFormatter))
+                .dateDue(LocalDate.parse("22-11-2000", dateTimeFormatter))
+                .name("name")
+                .priceWithTax(100D)
+                .build();
 
         BillModel actual = billModelBuilder.createInstance(responseBillDTO);
 
         BillModel expected = new BillModel();
         expected.setPrice(200D);
-        expected.setPayday(sdf.parse("12-11-2000"));
-        expected.setDueDate(sdf.parse("22-11-2000"));
+        expected.setPayday(LocalDate.parse("12-11-2000", dateTimeFormatter));
+        expected.setDueDate(LocalDate.parse("22-11-2000", dateTimeFormatter));
         expected.setName("name");
         expected.setPriceWithTax(100D);
 
